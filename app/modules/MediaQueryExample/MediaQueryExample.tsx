@@ -1,11 +1,21 @@
-import {View, Dimensions, useWindowDimensions, Image, Text} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Dimensions,
+  useWindowDimensions,
+  Image,
+  Text,
+  SafeAreaView,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {useMediaQuery} from 'react-responsive';
 import styles from './styles';
 import {Header} from '../../components';
 
 const MediaQueryExample = () => {
   const window = useWindowDimensions();
+  const [productList, setProductList] = useState({isLoading: true, data: []});
   const screen = Dimensions.get('screen');
 
   const device = {
@@ -17,47 +27,90 @@ const MediaQueryExample = () => {
     deviceAspectRatio: (screen.width / screen.height).toString(),
   };
 
-  const isDesktopOrLaptop = useMediaQuery({minWidth: 992}, device);
-  const isTablet = useMediaQuery(
-    {
-      minWidth: 768,
-      maxWidth: 991,
-    },
-    device,
-  );
+  const fetchProducts = () => {
+    fetch('https://dummyjson.com/products')
+      .then(res => res?.json())
+      .then(res =>
+        setProductList({data: res?.products ?? [], isLoading: false}),
+      )
+      .catch(() => setProductList({data: [], isLoading: false}));
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   const isMobile = useMediaQuery(
     {
-      maxWidth: 767,
+      minWidth: 320,
+      maxWidth: 520,
     },
     device,
   );
-  const mediaQueryStyles = styles(isTablet, isMobile, window);
+  const isTablet = useMediaQuery(
+    {
+      minWidth: 521,
+      maxWidth: 920,
+    },
+    device,
+  );
+  const isDesktopOrLaptop = useMediaQuery(
+    {
+      minWidth: 921,
+      maxWidth: 1440,
+    },
+    device,
+  );
+
+  console.log(
+    isDesktopOrLaptop,
+    'isDesktopOrLaptop',
+    isTablet,
+    'isTablet',
+    isMobile,
+    'isMobile',
+  );
+  const mediaQueryStyles = styles(
+    isTablet,
+    isMobile,
+    isDesktopOrLaptop,
+    window.width,
+  );
+
+  const card = ({item}: any) => {
+    return (
+      <View style={mediaQueryStyles.cardContainer}>
+        <Image
+          source={{uri: item?.thumbnail ?? item?.images?.[0]}}
+          style={mediaQueryStyles.image}
+          resizeMode="contain"
+        />
+        <View style={mediaQueryStyles.textContainer}>
+          <Text style={mediaQueryStyles.title} numberOfLines={1}>
+            {item?.title ?? ''}
+          </Text>
+          <Text style={mediaQueryStyles.brand}>{item?.brand ?? ''}</Text>
+          <Text style={mediaQueryStyles.description} numberOfLines={2}>
+            {item?.description ?? ''}
+          </Text>
+        </View>
+        <Text style={mediaQueryStyles.price}>$ {item?.price ?? 0}.00</Text>
+      </View>
+    );
+  };
 
   return (
-    <View style={mediaQueryStyles.container}>
-      <View style={mediaQueryStyles.header}>
-        <Header title="MediaQuery" />
-      </View>
-      <View style={mediaQueryStyles.body}>
-        <View style={mediaQueryStyles.box}>
-          <Image
-            source={{
-              uri: 'https://cdn.vox-cdn.com/thumbor/fE4YShv4sQEZ88ukpel9Z7VMChs=/0x0:1920x1080/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/53623075/link_botw.0.jpg',
-            }}
-            style={mediaQueryStyles.image}
-            resizeMode="cover"
-          />
-          <View style={mediaQueryStyles.textContainer}>
-            <Text style={mediaQueryStyles.title}>The Garden City</Text>
-            <Text style={mediaQueryStyles.description}>
-              The Silicon Valley of India. Bengaluru (also called Bangalore) is
-              the center of India's high-tech industry. The city is also known
-              for its parks and nightlife.
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
+    <SafeAreaView style={mediaQueryStyles.mainContainer}>
+      <Header title="Media Query" />
+      {productList.isLoading ? (
+        <ActivityIndicator style={{height: window.height}} size="large" />
+      ) : (
+        <FlatList
+          data={productList.data}
+          renderItem={card}
+          contentContainerStyle={mediaQueryStyles.contentContainerStyle}
+          style={mediaQueryStyles.flatList}
+        />
+      )}
+    </SafeAreaView>
   );
 };
 

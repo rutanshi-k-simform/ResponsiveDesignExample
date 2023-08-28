@@ -1,6 +1,7 @@
 import {Dimensions, Platform} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
-const guidelineBaseWidth = Platform.OS === 'web' ? 1000 : 375;
+const guidelineBaseWidth = Platform.OS === 'web' ? 1024 : 390;
 const guidelineBaseHeight = Platform.OS === 'web' ? 600 : 812;
 
 let {width, height} = Dimensions.get('window');
@@ -16,6 +17,9 @@ const globalMetrics = {
   isIos: Platform.OS === 'ios',
   isAndroid: Platform.OS === 'android',
   isWeb: Platform.OS === 'web',
+  isTablet:
+    (Platform.OS === 'ios' && Platform.isPad) ||
+    DeviceInfo.getDeviceType() === 'Tablet',
 };
 
 export default {

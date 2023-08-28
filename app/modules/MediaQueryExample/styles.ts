@@ -1,52 +1,72 @@
 import {StyleSheet} from 'react-native';
 
-const styles = (isTablet: boolean, isMobile: boolean, window: any) =>
+const styles = (
+  isTablet: boolean,
+  isMobile: boolean,
+  isDesktopOrLaptop: boolean,
+  width: number,
+) =>
   StyleSheet.create({
-    container: {
-      height: window.height,
+    mainContainer: {
+      width,
+      backgroundColor: 'white',
     },
-    header: {
-      width: window.width,
-      backgroundColor: '#B2D8EC',
-      height: 80,
-      justifyContent: 'flex-end',
+    flatList: {
+      alignSelf: 'center',
+      width: '85%',
     },
-    body: {
+    contentContainerStyle: {
+      rowGap: 10,
+      columnGap: 10,
+      padding: 10,
+      flexWrap: 'wrap',
+      flexDirection: 'row',
       justifyContent: 'center',
-      alignItems: 'center',
-      flex: 1,
     },
-    box: {
-      backgroundColor: '#B2D8EC',
-      flexDirection: isMobile ? 'column' : 'row',
-      height: isMobile ? 400 : isTablet ? 280 : 300,
-      width: isMobile ? 250 : 520,
-      borderRadius: 24,
+    cardContainer: {
+      shadowColor: 'black',
+      shadowOffset: {
+        width: 0,
+        height: 0,
+      },
+      elevation: 2,
+      shadowOpacity: 0.5,
+      shadowRadius: 3,
+      borderRadius: 5,
+      width: isMobile ? 270 : isTablet ? 275 : 290,
+      backgroundColor: 'white',
     },
     image: {
-      height: isMobile ? '60%' : '100%',
-      width: isMobile ? '100%' : '50%',
-      borderTopLeftRadius: 24,
-      borderBottomLeftRadius: isMobile ? 0 : 24,
-      borderTopRightRadius: isMobile ? 24 : 0,
+      width: isMobile ? 270 : isTablet ? 275 : 290,
+      aspectRatio: 1,
     },
     textContainer: {
-      flex: 1,
-      paddingBottom: 10,
+      padding: 8,
     },
     title: {
-      fontSize: isMobile ? 20 : 24,
-      fontWeight: '600',
+      fontSize: isMobile ? 18 : isTablet ? 18 : 16,
+      fontWeight: isMobile ? '700' : isTablet ? '600' : '600',
       color: 'black',
-      marginVertical: 10,
-      marginHorizontal: 10,
+      marginBottom: 2,
+    },
+    brand: {
+      fontSize: isMobile ? 14 : isTablet ? 15 : 14,
+      fontWeight: isMobile ? '600' : isTablet ? '600' : '500',
+      color: 'purple',
+      marginBottom: 2,
     },
     description: {
-      fontSize: isMobile ? 14 : isTablet ? 18 : 16,
-      fontWeight: '400',
-      alignContent: 'stretch',
+      fontSize: isMobile ? 14 : isTablet ? 15 : 14,
+      fontWeight: isMobile ? '600' : isTablet ? '600' : '500',
       color: 'black',
-      marginHorizontal: 10,
+      marginBottom: 2,
+    },
+    price: {
+      fontSize: isMobile ? 18 : isTablet ? 18 : 16,
+      fontWeight: isMobile ? '700' : isTablet ? '600' : '600',
+      color: 'black',
+      marginBottom: 5,
+      alignSelf: 'center',
     },
   });
 

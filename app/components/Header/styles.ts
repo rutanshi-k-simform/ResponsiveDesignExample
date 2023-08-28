@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'lightblue',
   },
   text: {
     color: 'black',
