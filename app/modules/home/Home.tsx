@@ -13,6 +13,10 @@ const Home = () => {
         onPress={() => navigation.navigate(ROUTES.flexExample)}
       />
       <Button
+        title="Platform"
+        onPress={() => navigation.navigate(ROUTES.platformExample)}
+      />
+      <Button
         title="Percentage"
         onPress={() => navigation.navigate(ROUTES.percentageExample)}
       />
@@ -23,10 +27,6 @@ const Home = () => {
       <Button
         title="Aspect Ratio"
         onPress={() => navigation.navigate(ROUTES.aspectRatioExample)}
-      />
-      <Button
-        title="Platform"
-        onPress={() => navigation.navigate(ROUTES.platformExample)}
       />
       <Button
         title="Media Query"
