@@ -1,46 +1,89 @@
 import {StyleSheet} from 'react-native';
 import {Metrics} from '../../theme';
 
-const {verticalScale, height, width, horizontalScale, moderateScale} = Metrics;
+const {
+  verticalScale,
+  horizontalScale,
+  moderateScale,
+  width,
+  globalMetrics: {isWeb, isTablet},
+} = Metrics;
 
 const styles = StyleSheet.create({
-  container: {
-    height: height,
-    width: width,
+  mainContainer: {
+    flex: isWeb ? undefined : 1,
+    backgroundColor: 'white',
   },
-  header: {
-    backgroundColor: '#B2D8EC',
-    height: verticalScale(80),
-    justifyContent: 'flex-end',
+  flatList: {
+    alignSelf: 'center',
+    width: width - moderateScale(100),
   },
-  body: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+  contentContainerStyle: {
+    rowGap: horizontalScale(10),
+    columnGap: verticalScale(10),
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: moderateScale(10),
   },
-  box: {
-    width: horizontalScale(250),
-    height: verticalScale(360),
-    backgroundColor: '#B2D8EC',
-    borderRadius: moderateScale(15),
+  cardContainer: {
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 2,
+    shadowOpacity: 0.5,
+    shadowRadius: moderateScale(3),
+    borderRadius: moderateScale(5),
+    width: isWeb
+      ? horizontalScale(219)
+      : isTablet
+      ? horizontalScale(134)
+      : horizontalScale(250),
+    backgroundColor: 'white',
   },
   image: {
-    borderTopLeftRadius: moderateScale(15),
-    borderTopRightRadius: moderateScale(15),
-    width: horizontalScale(250),
-    height: verticalScale(200),
+    aspectRatio: 1,
+  },
+  textContainer: {
+    padding: moderateScale(10),
   },
   title: {
-    fontSize: moderateScale(20),
-    fontWeight: '600',
-    marginVertical: verticalScale(10),
-    marginHorizontal: horizontalScale(10),
+    fontSize: isWeb
+      ? moderateScale(14)
+      : isTablet
+      ? moderateScale(16)
+      : moderateScale(18),
+    fontWeight: '700',
     color: 'black',
   },
+  brand: {
+    fontSize: isWeb
+      ? moderateScale(12)
+      : isTablet
+      ? moderateScale(14)
+      : moderateScale(16),
+    fontWeight: '500',
+    color: 'purple',
+  },
   description: {
-    fontSize: moderateScale(14),
-    fontWeight: '400',
-    marginHorizontal: horizontalScale(10),
+    fontSize: isWeb
+      ? moderateScale(12)
+      : isTablet
+      ? moderateScale(14)
+      : moderateScale(16),
+    fontWeight: '500',
+    color: 'black',
+  },
+  price: {
+    fontSize: isWeb
+      ? moderateScale(14)
+      : isTablet
+      ? moderateScale(16)
+      : moderateScale(18),
+    fontWeight: 'bold',
+    color: 'black',
+    alignSelf: 'center',
   },
 });
 
